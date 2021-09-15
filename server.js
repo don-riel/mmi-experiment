@@ -8,8 +8,8 @@ const db = knex({
   client: "pg",
   connection: {
     host: "127.0.0.1",
-    user: "postgres",
-    password: "drowssap",
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
     database: "mmi",
   },
 });
@@ -105,31 +105,39 @@ app.post("/register", function (req, res) {
     task6: task6,
   };
   try {
-    if (inputDevice === "mouse") {
-      db("mouse")
+      db(inputDevice)
         .insert(structure)
         .then((response) => {
           if (response) {
             res.send({ msg: "true" });
           }
         });
-    } else if (inputDevice === "touchpad") {
-      db("touchpad")
-        .insert(structure)
-        .then((response) => {
-          if (response) {
-            res.send({ msg: "true" });
-          }
-        });
-    } else {
-      db("touchscreen")
-        .insert(structure)
-        .then((response) => {
-          if (response) {
-            res.send({ msg: "true" });
-          }
-        });
-    }
+
+    // if (inputDevice === "mouse") {
+    //   db("mouse")
+    //     .insert(structure)
+    //     .then((response) => {
+    //       if (response) {
+    //         res.send({ msg: "true" });
+    //       }
+    //     });
+    // } else if (inputDevice === "touchpad") {
+    //   db("touchpad")
+    //     .insert(structure)
+    //     .then((response) => {
+    //       if (response) {
+    //         res.send({ msg: "true" });
+    //       }
+    //     });
+    // } else {
+    //   db("touchscreen")
+    //     .insert(structure)
+    //     .then((response) => {
+    //       if (response) {
+    //         res.send({ msg: "true" });
+    //       }
+    //     });
+    // }
   } catch (error) {
     res.send({ msg: "false" });
   }
